@@ -1,3 +1,3 @@
 from django.db import models
 
-# Create your models here. tyrry
+# Create your models here. tyrryretrterer
