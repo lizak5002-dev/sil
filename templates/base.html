@@ -13,7 +13,9 @@
         </div>
         <div>
             <a href="{% url 'users:register' %}">Регистрация</a>
-            <a href="/">Авторизация</a>
+            <a href="{% url 'users:login' %}">Авторизация</a>
+            <a href="{% url 'users:logout' %}">Выйти</a>
+            <a>Привет, {{ user.username }}!</a>
         </div>
     </nav>
     {% block context %}
