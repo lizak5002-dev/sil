@@ -14,7 +14,7 @@ def register_user(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect()
+            return redirect('index')
     else:
         form = UserRegisterForm()
     return render(request, 'users/register.html', {'form':form, 'title':'Регистрация'})
@@ -29,4 +29,8 @@ def login_user(request):
     else:
         form = AuthenticationForm()
     return render(request, 'users/login.html', {'form':form, 'title':'Авторизация'})
+
+def logout_user(request):
+    logout(request)
+    return redirect('index')
 
