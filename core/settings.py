@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     
     'users',
     'notes',
+    'blog',
     
     'django_ckeditor_5',
     'crispy_forms',
@@ -127,9 +128,10 @@ STATIC_URL = 'static/'
 
 CKEDITOR_5_CONFIGS = {
     'default': {
-        'toolbar': ['heading', '|', 'bold', 'italic', 'link', 
-                   'bulletedList', 'numberedList', 'blockQuote',
-                   'imageUpload', 'undo', 'redo'],
+        'toolbar': ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'horizontalLine', 'alignment',
+                    'insertTable', 'codeBlock', 'imageUpload', 
+                    '|', 'undo', 'redo'],
+                    'language': 'ru',
     },
 }
 
