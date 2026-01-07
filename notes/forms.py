@@ -13,3 +13,4 @@ class NoteForm(forms.ModelForm):
             'title': 'Название заметки',
             'context': 'Текст заметки'
         }
+ 
