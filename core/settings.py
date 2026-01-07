@@ -39,6 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     'users',
+    'notes',
+    
+    'django_ckeditor_5',
+    'crispy_forms',
+    'crispy_bootstrap5',
 ]
 
 MIDDLEWARE = [
@@ -117,3 +122,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+CKEDITOR_5_CONFIGS = {
+    'default': {
+        'toolbar': ['heading', '|', 'bold', 'italic', 'link', 
+                   'bulletedList', 'numberedList', 'blockQuote',
+                   'imageUpload', 'undo', 'redo'],
+    },
+}
+
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+CKEDITOR_IMAGE_BACKEND = 'pillow'
