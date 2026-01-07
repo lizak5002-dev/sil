@@ -9,3 +9,5 @@ urlpatterns = [
     path('edit/', views.edit_note, name='edit_note'),
     path('delete/', views.delete_note, name='delete_note'),
 ]
+
+#myay
