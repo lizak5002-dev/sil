@@ -26,6 +26,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('users/', include('users.urls')),
     path('notes/', include('notes.urls')),
+    path('blog/', include('blog.urls')),
     path('ckeditor5/', include('django_ckeditor_5.urls')),
 ]
 
