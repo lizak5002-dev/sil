@@ -3,5 +3,6 @@
     {% block context %}
         <h1>Hello this is channel POMIDORKI!!!</h1>
         <a class="nav-link mx-2" href="{% url 'blog:post_list' %}">Блог</a>
+        <a href="{% url 'notes:show_notes' %}" class="btn btn-primary btn-lg me-3">Заметки</a>
     {% endblock %}
 
