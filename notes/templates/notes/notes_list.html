@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+    {% block title %} Мои заметки {% endblock %}
+
+    {% block context %}
+
+    <h1>Список заметок</h1>
+    {% if notes %}
+        <ul>
+        {% for note in notes %}
+            <li>{{ note.title }} - {{ note.created_at }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>Заметок пока нет.</p>
+    {% endif %}
+    <a href="{% url 'notes:create_note' %}">Создать новую заметку</a>
+    {% endblock %}
