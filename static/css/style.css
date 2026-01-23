@@ -9,13 +9,9 @@ nav a {
 }
 
 .home-page {
-  margin: 10px;
   display: flex;
   justify-content: space-between;
-}
-
-.home-page li {
-  display: inline;
+  gap: 1em;
 }
 
 .home-page a {
@@ -24,12 +20,6 @@ nav a {
   color: black;
   font-size: 20;
   font-weight: bold;
-  
-  
-}
-
-.home-page li:last-child a {
-  margin-right: 0;
 }
 
 .home-page a:link,
