@@ -1,57 +1,12 @@
 {% extends 'base.html' %}
 
 {% block context %}
-<h1>Hello this is channel POMIDORKI!!!</h1>
 
 <div class="home-page">
-    <ul>
-        <li><a href="{% url 'blog:post_list' %}">Блог</a></li>
-        <li><a href="{% url 'notes:show_notes' %}">Заметки</a></li>
-    </ul>
+    <a href="{% url 'blog:post_list' %}" class="rounded-3 w-50">Блог</a>
+    <a href="{% url 'notes:show_notes' %}" class="rounded-3 w-50">Заметки</a>
 </div>
-
-<style>
-.home-page ul {
-  padding: 0;
-  width: 100%;
-}
-
-.home-page li {
-  display: inline;
-}
-
-.home-page a {
-    outline: none;
-    text-decoration: none; /* ссылка не подчеркивается */
-    display: inline-block;
-    width: 45%;
-    margin-right: 5%;
-    text-align: center;
-    line-height: 3;
-    color: black;
-    border-radius: 5%;
-    font-family: sans-serif;
-    font-size: 20;
-    font-weight: bold;
-}
-
-.home-page li:last-child a {
-  margin-right: 0;
-}
-
-.home-page a:link,
-.home-page a:visited,
-.home-page a:focus {
-  background: orange;
-}
-
-.home-page a:hover {
-  background: #FF9200;
-}
-
-.home-page a:active {
-  background: #A65C00;
-  color: white;
-}
-</style>
+<div>
+  <img src="/staticfiles/photo1.png" width="100%" class="rounded-3 mb-3">
+</div>
 {% endblock %}

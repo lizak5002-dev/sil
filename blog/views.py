@@ -11,10 +11,10 @@ def post_list(request):
     }
     return render(request, "blog/post_list.html", context)
 
-def add_post(request):
+def post_add(request):
     form = PostForm()
     context = {
         "form":form,
         "title": "Создание поста"
     }
-    return render(request, "blog/add_post.html", context)
+    return render(request, "blog/post_add.html", context)

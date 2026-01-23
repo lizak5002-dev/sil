@@ -1,0 +1,48 @@
+/*Навигация*/
+nav {
+  background-color:  #ffc173;
+  border-radius: 0 0 10px 10px;
+}
+
+nav a {
+  padding: 10px, 10px;
+}
+
+.home-page {
+  margin: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.home-page li {
+  display: inline;
+}
+
+.home-page a {
+  text-decoration: none; /* ссылка не подчеркивается */
+  text-align: center;
+  color: black;
+  font-size: 20;
+  font-weight: bold;
+  
+  
+}
+
+.home-page li:last-child a {
+  margin-right: 0;
+}
+
+.home-page a:link,
+.home-page a:visited,
+.home-page a:focus {
+  background: orange;
+}
+
+.home-page a:hover {
+  background: #FF9200;
+}
+
+.home-page a:active {
+  background: #A65C00;
+  color: white;
+}
