@@ -2,20 +2,28 @@
     {% block title %} Мои заметки {% endblock %}
 
     {% block context %}
-
-    <h1>Список заметок</h1>
+    <div class="notes-bar">
+        <h1>Список заметок</h1>
+        <a href="{% url 'notes:create_note' %}" class="btn btn-success">Создать новую заметку</a>
+        <a href="/" class="btn btn-primary">На главную</a>
+    </div>
     {% if notes %}
-        <ul>
+        <div class="row row-cols-1 row-cols-sm-3 g-3">
         {% for note in notes %}
-            <li>{{ note.title }} - {{ note.created_at }} <br> {{ note.content }} </li>
-            <a href="{% url 'notes:edit_note' note.id %}">Изменить</a> | <a href="{% url 'notes:delete_note' note.id %}" onclick=" return confirm('Вы уверены, что хотите удалить эту заметку?');">Удалить</a>
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-header">{{ note.title }} - {{ note.created_at }}</div>
+                    <div class="card-body">{{ note.content }}</div>
+                    <div class="card-footer"><a href="{% url 'notes:edit_note' note.id %}" class="btn btn-outline-success">Изменить</a> <a href="{% url 'notes:delete_note' note.id %}" class="btn btn-outline-danger" onclick=" return confirm('Вы уверены, что хотите удалить эту заметку?');">Удалить</a></div>
+                </div>
+            </div>
         {% endfor %}
-        </ul>
+        </div>
     {% else %}
         <p>Заметок пока нет.</p>
     {% endif %}
     {% if user.is_authenticated %}
-    <a href="{% url 'notes:create_note' %}">Создать новую заметку</a>
+    
     {% else %}
     <p>Авторизуйтесь, чтобы создавать заметки!</p>
     {% endif %}

@@ -36,3 +36,8 @@ nav a {
   background: #A65C00;
   color: white;
 }
+
+.notes-bar {
+  display: flex;
+  justify-content: space-between;
+}
