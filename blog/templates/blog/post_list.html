@@ -2,6 +2,11 @@
 
     {% block context %}
     <h1>Посты</h1>
+    <dev>
+        <ul>
+            <li><a href="{% url 'blog:post_add' %}">Создать пост</a></li>
+        </ul>
+    </dev>
     <div>
         {% if posts %}
             {% for post in posts %}
