@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block context %}
+<div class="container mt-4">
+    <h1 class="mb-4">Редактирование поста</h1>
+    
+    <form method="POST" class="form">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label class="form-label">Заголовок</label>
+            {{ form.title }}
+        </div>
+        
+        <!-- Контент -->
+        <div class="mb-3">
+            <label class="form-label">Содержание</label>
+            {{ form.content }}
+        </div>
+        
+        <!-- Категория -->
+        <div class="mb-3">
+            <label>Категория</label>
+            {{ form.category }}
+        </div>
+        
+        <!-- Изображение -->
+        <div class="mb-3">
+            <label>Изображение</label>
+            {{ form.image }}
+        </div>
+        
+        <button type="submit" class="btn btn-success">Опубликовать</button>
+    </form>
+</div>
+{{ form.media }}
+{% endblock %}
