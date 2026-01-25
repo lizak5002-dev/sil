@@ -12,6 +12,7 @@
             {% for post in posts %}
                 <h5 class="card-title">{{ post.title }}</h5>
                 <h5 class="card-title">{{ post.content|striptags|truncatewords:30 }}</h5>
+                <a href="{% url 'blog:post_delete' post.id %}">Удалить</a>
             {% endfor %}
         {% endif %}
     </div>
