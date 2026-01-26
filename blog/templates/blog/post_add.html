@@ -4,12 +4,17 @@
 <div class="container mt-4">
     <h1 class="mb-4">Создание поста</h1>
     
-    <form method="POST" class="form">
+    <form method="POST" class="form" enctype="multipart/form-data">
         {% csrf_token %}
         
         <div class="mb-3">
             <label class="form-label">Заголовок</label>
             {{ form.title }}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Краткое описание</label>
+            {{ form.lead }}
         </div>
         
         <!-- Контент -->
@@ -30,7 +35,8 @@
             {{ form.image }}
         </div>
         
-        <button type="submit" class="btn btn-success">Опубликовать</button>
+        <button type="submit" class="btn btn-success" name="action" value="publish">Опубликовать</button>
+        <button type="submit" class="btn btn-info" name="action" value="draft">Сохранить как черновик</button>
     </form>
 </div>
 {{ form.media }}

@@ -16,15 +16,18 @@ class Post(models.Model):
     CHOICE_STATUS = (
         ("draft", "Черновик"),
         ("pending", "На модерации"),
-        ("published", "Опубликовано"),
+        ("published", "Опубликован"),
+        ('rejected', 'Отклонён'),
     )
 
     title = models.CharField(max_length=100, verbose_name="Название")
+    lead = models.CharField(max_length=200, default='', blank=True, verbose_name="Краткое описание")
     content = CKEditor5Field(verbose_name="Содержание")
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Автор")
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, verbose_name="Категория")
     image = models.ImageField(upload_to='posts/images/%Y/%m/%d/', blank=True, null=True, verbose_name='Изображение')
-    status = models.CharField(max_length=15, choices=CHOICE_STATUS, verbose_name="Статус")
+    status = models.CharField(max_length=15, choices=CHOICE_STATUS, verbose_name="Статус", default="draft")
+    moderation_reason = models.TextField(blank=True, verbose_name="Причина модерации")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Создан")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Обновлен")
     views = models.PositiveIntegerField(default=0, verbose_name="Просмотры")
@@ -36,6 +39,22 @@ class Post(models.Model):
         verbose_name = "Пост"
         verbose_name_plural = "Посты"
         ordering = ["created_at"]
+
+    def auto_moderate(self):
+        '''Автоматическая генерация поста'''
+        from .moderation import ModerationPost
+
+        moderator = ModerationPost()
+        is_clean, bad_words = moderator.check_post(self.title, self.content)
+        if is_clean:
+            self.status = "published"
+            self.moderation_reason = "Автоматически одобрено"
+        else:
+            self.status = "rejected"
+            bad_words_str = ", ".join(bad_words)
+            self.moderation_reason = f"Найдены запрещенные слова: {bad_words_str}"
+
+        self.save()
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, verbose_name="Пост")

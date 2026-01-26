@@ -14,20 +14,45 @@ def post_list(request):
     return render(request, "blog/post_list.html", context)
 
 def post_detail(request, post_id):
-    post = get_object_or_404(Post, id=post_id)
-
+    post = get_object_or_404(Post, id=post_id, status="published")
+    post.views += 1
+    post.save(update_fields=["views"])
+    context = {
+        "post":post,
+        "title": post.title
+    }
+    return render(request, "blog/post_detail.html", context)
 
 @login_required
 def post_add(request):
     if request.method == "POST":
-        form = PostForm(request.POST)
+        form = PostForm(request.POST, request.FILES)
+        save_action = request.POST.get("action", "publish")
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
-            post.status = "pending"
-            post.save()
-            messages.success(request, "Пост успешно добавлен и отправлен на модерацию! Он будет опубликован после проверки.")
-            return redirect(reverse("blog:post_list"))
+            if save_action == "draft":
+                post.status = "draft"
+                post.save()
+                messages.success(request, "Пост успешно сохранён как черновик!")
+                return redirect(reverse("blog:post_list"))
+            elif save_action == "publish":
+                post.status = "pending"
+                post.save()
+                post.auto_moderate()
+                if post.status == "published":
+                    messages.success(request, "Пост успешно опубликован!")
+                elif post.status == "rejected":
+                    messages.warning(
+                        request, 
+                        f"Пост отклонен, так как нарушает правила публикации!"
+                    )
+                else:
+                    messages.success(
+                        request, 
+                        "Пост отправлен на модерацию! Он будет опубликован после проверки."
+                    )
+                return redirect(reverse("blog:post_list"))
     else:
         form = PostForm()
         context = {

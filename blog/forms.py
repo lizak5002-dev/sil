@@ -5,9 +5,10 @@ from django_ckeditor_5.widgets import CKEditor5Widget
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ["category", "image", "title", "content"]
+        fields = ["category", "image", "title", "lead", "content"]
         widgets = {
             "title": forms.TextInput(attrs={"class": "form-control", "placeholder": "Введите заголовок поста"}), 
+            "lead": forms.TextInput(attrs={"class": "form-control", "placeholder": "Введите краткое описание"}), 
             "content": CKEditor5Widget(attrs={"class": "django_ckeditor_5"}, config_name="default"), 
             "category": forms.Select(attrs={"class": "form-select"}),
         }
