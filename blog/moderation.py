@@ -1,4 +1,4 @@
-class ModerationPost():
+class ModerationBlog():
     def __init__(self):
         self.stop_words = [
             'спам', 'реклама', 'купить', 'продать', 'дешево',

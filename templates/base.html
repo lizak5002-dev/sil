@@ -14,7 +14,7 @@
 <body class="d-flex flex-column min-vh-100">
     <div class="position-fixed top-0 end-0 p-3">
         {% for message in messages %}
-        <div class="toast show" role="alert" data-bs-delay="5000" style="max-width: 250px;">
+        <div class="toast show" role="alert" data-bs-delay="3000" style="max-width: 250px; min-height: 60px;">
             <div class="toast-body">
                 {{ message }}
                 <button type="button" class="btn-close float-end" data-bs-dismiss="toast"></button>
@@ -30,7 +30,7 @@
     </div>
     <div class="navbar me-2">
       {% if user.is_authenticated %}
-      <a>Привет, {{ user.username }}!</a>
+      <a href="{% url 'users:profile'%}" style="text-decoration: none; color: black;">Привет, {{ user.username }}!</a>
       {% endif %}
 
       {% if not user.is_authenticated %}
@@ -44,7 +44,7 @@
     </div>
   </nav>
   <div class="container">
-    {% block context %}
+    {% block content %}
     {% endblock %}
   </div>
   <footer class="container bg-light py-4 mt-auto rounded-3">
