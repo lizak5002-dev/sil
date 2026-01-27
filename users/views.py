@@ -46,16 +46,34 @@ def logout_user(request):
 
 @ login_required
 def profile_user(request):
-    profile = request.user
-    user_comments = Comment.objects.filter(author=profile, status="published").order_by("created_at")
-    user_posts = Post.objects.filter(author=profile, status__in=["published, pending, draft"]).order_by("created_at")
+    user = request.user
     context = {
-        "profile": profile,
-        "title": f"Профиль {profile.username}",
-        "comments": user_comments,
-        "posts": user_posts,
+        "profile": user,
+        "title": f"Профиль {user.username}",
     }
     return render(request, "users/profile.html", context)
+
+@login_required
+def posts_user(request):
+    user = request.user
+    user_posts = Post.objects.filter(author=user, status__in=["published", "pending", "draft"]).order_by("created_at")
+    context = {
+        "user": user,
+        "posts": user_posts,
+        "title": f"Посты {user.username}",
+    }
+    return render(request, "users/posts_user.html", context)
+
+@login_required
+def comments_user(request):
+    user = request.user
+    user_comments = Comment.objects.filter(author=user, status="published").order_by("created_at")
+    context = {
+        "user": user,
+        "comments": user_comments,
+        "title": f"Коментарии {user.username}",
+    }
+    return render(request, "users/comments_user.html", context)
 
 @login_required
 def profile_edit(request):

@@ -4,19 +4,21 @@
     <h1>Профиль</h1>
     <div class="mb-3">
         <label class="form-label">Имя пользователя:</label>
-        {{ profile.username }}
+        {{ user.username }}
     </div>
     <div class="mb-3">
         <label class="form-label">Фамилия:</label>
-        {{ profile.last_name }}
+        {{ user.last_name }}
     </div>
     <div class="mb-3">
         <label class="form-label">Имя:</label>
-        {{ profile.first_name }}
+        {{ user.first_name }}
     </div>
     <div class="mb-3">
     <label class="form-label">Электронная почта:</label>
-        {{ profile.email }}
+        {{ user.email }}
     </div>
     <a href="{% url 'users:profile_edit' %}">Редактировать профиль</a>
+    <a href="{% url 'users:posts_user' %}">Мои посты</a>
+    <a href="{% url 'users:comments_user' %}">Мои комменты</a>
 {% endblock %}
