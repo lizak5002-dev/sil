@@ -14,7 +14,7 @@
 <body class="d-flex flex-column min-vh-100">
     <div class="position-fixed top-0 end-0 p-3">
         {% for message in messages %}
-        <div class="toast show" role="alert" data-bs-delay="5000" style="max-width: 250px;">
+        <div class="toast show" role="alert" data-bs-delay="3000" style="max-width: 250px; min-height: 60px;">
             <div class="toast-body">
                 {{ message }}
                 <button type="button" class="btn-close float-end" data-bs-dismiss="toast"></button>

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from .forms import UserRegisterForm
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib import messages
 
 #hello Tasya moy lubimyu
 
@@ -14,6 +15,7 @@ def register_user(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
+            messages.success(request, "Регистрация прошла успешно!")
             return redirect('index')
     else:
         form = UserRegisterForm()
@@ -25,6 +27,7 @@ def login_user(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
+            messages.success(request, "Авторизация прошла успешно!")
             return redirect('index')
     else:
         form = AuthenticationForm()
@@ -32,5 +35,8 @@ def login_user(request):
 
 def logout_user(request):
     logout(request)
+    messages.success(request, "Вы успешно вышли из аккаунта!")
     return redirect('index')
 
+def profile_user(request):
+    pass
