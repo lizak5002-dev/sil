@@ -76,15 +76,9 @@ def post_add(request):
                 if post.status == "published":
                     messages.success(request, "Пост успешно опубликован!")
                 elif post.status == "rejected":
-                    messages.warning(
-                        request, 
-                        f"Пост отклонен, так как нарушает правила публикации!"
-                    )
+                    messages.warning(request, f"Пост отклонен, так как нарушает правила публикации!")
                 else:
-                    messages.success(
-                        request, 
-                        "Пост отправлен на модерацию! Он будет опубликован после проверки."
-                    )
+                    messages.success(request, "Пост отправлен на модерацию! Он будет опубликован после проверки.")
                 return redirect(reverse("blog:post_list"))
     else:
         form = PostForm()
@@ -96,7 +90,10 @@ def post_add(request):
     
 @login_required
 def post_delete(request, post_id):
-    post = get_object_or_404(Post, id=post_id, author=request.user)
+    post = get_object_or_404(Post, id=post_id)
+    if request.user != post.author:
+        messages.error(request, "Вы не можете удалить чужой пост!")
+        return redirect("blog:post_list")
     if request.method == "POST":
         post.delete()
         messages.success(request, "Пост успешно удалён!")
@@ -111,14 +108,31 @@ def post_delete(request, post_id):
 @login_required
 def post_update(request, post_id):
     post = get_object_or_404(Post, id=post_id)
+    save_action = request.POST.get("action", "published")
+    if request.user != post.author:
+        messages.error(request, "Вы не можете изменять чужой пост!")
+        return redirect("blog:post_list")
     if request.method == "POST":
         form = PostForm(request.POST, instance=post)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
-            post.save()
-            messages.success(request, "Пост успешно обновлен!")
-            return redirect(reverse("blog:post_list"))
+            if save_action == "draft":
+                post.status = "draft"
+                post.save()
+                messages.success(request, "Пост успешно сохранён как черновик!")
+                return redirect(reverse("blog:post_list"))
+            elif save_action == "publish":
+                post.status = "pending"
+                post.save()
+                post.auto_moderate()
+                if post.status == "published":
+                    messages.success(request, "Пост успешно Обновлён!")
+                elif post.status == "rejected":
+                    messages.warning(request, f"Пост отклонен, так как нарушает правила публикации!")
+                else:
+                    messages.success(request, "Пост отправлен на модерацию! Он будет опубликован после проверки.")
+                return redirect(reverse("blog:post_list"))
     else:
         form = PostForm(instance=post)
     context = {'form':form, 'title':'Редактирование поста'}
