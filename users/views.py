@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout
-from .forms import UserRegisterForm
+from django.contrib.auth.forms import PasswordChangeForm
+from .forms import UserRegisterForm, CustomUserChangeForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.contrib.auth.models import User
+from blog.models import Post, Comment
 
 #hello Tasya moy lubimyu
 
@@ -39,10 +41,26 @@ def logout_user(request):
     messages.success(request, "Вы успешно вышли из аккаунта!")
     return redirect('index')
 
-def profile_user(request, user_id):
-    profile = get_object_or_404(User, id=user_id)
+def profile_user(request):
+    profile = request.user
+    user_comments = Comment.objects.filter(author=profile, status="published").order_by("created_at")
+    user_posts = Post.objects.filter(author=profile, status__in=["published, pending, draft"]).order_by("created_at")
     context = {
         "profile": profile,
-        "title": f"Профиль {profile.username}"
+        "title": f"Профиль {profile.username}",
+        "comments": user_comments,
+        "posts": user_posts,
     }
     return render(request, "users/profile.html", context)
+
+def profile_edit(request):
+    if request.method == "POST":
+        form = CustomUserChangeForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Профиль успешно обновлён!")
+            return redirect("users:profile")
+    else:
+        form = CustomUserChangeForm(instance=request.user)
+    return render(request, "users/profile_edit.html", {"form": form})
+

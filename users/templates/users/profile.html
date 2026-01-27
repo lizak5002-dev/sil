@@ -17,4 +17,6 @@
     <div class="mb-3">
     <label class="form-label">Электронная почта:</label>
         {{ profile.email }}
+    </div>
+    <a href="{% url 'users:profile_edit' %}">Редактировать профиль</a>
 {% endblock %}

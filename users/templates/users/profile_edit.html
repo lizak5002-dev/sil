@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block context %}
+<div>
+    <h1>Редактирование профиля</h1>
+    
+    <form method="POST">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label>Логин:</label>
+            <input type="text" name="username" value="{{ user.username }}">
+        </div>
+        
+        <div class="mb-3">
+            <label>Имя:</label>
+            <input type="text" name="first_name" value="{{ user.first_name }}">
+        </div>
+        
+        <div class="mb-3">
+            <label>Фамилия:</label>
+            <input type="text" name="last_name" value="{{ user.last_name }}">
+        </div>
+        
+        <div class="mb-3">
+            <label>Email:</label>
+            <input type="email" name="email" value="{{ user.email }}">
+        </div>
+        <div>
+            <a href="/">Изменить пароль</a>
+        </div>
+        <button type="submit">Сохранить изменения</button>
+        <a href="{% url 'users:profile' %}">Отмена</a>
+    </form>
+</div>
+{% endblock %}

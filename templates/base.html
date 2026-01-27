@@ -30,7 +30,7 @@
     </div>
     <div class="navbar me-2">
       {% if user.is_authenticated %}
-      <a href="{% url 'users:profile' user.id%}" style="text-decoration: none; color: black;">Привет, {{ user.username }}!</a>
+      <a href="{% url 'users:profile'%}" style="text-decoration: none; color: black;">Привет, {{ user.username }}!</a>
       {% endif %}
 
       {% if not user.is_authenticated %}
