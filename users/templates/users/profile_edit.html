@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block context %}
+{% block content %}
 <div>
     <h1>Редактирование профиля</h1>
     
@@ -27,7 +27,7 @@
             <input type="email" name="email" value="{{ user.email }}">
         </div>
         <div>
-            <a href="/">Изменить пароль</a>
+            <a href="{% url 'users:change_password' %}">Изменить пароль</a>
         </div>
         <button type="submit">Сохранить изменения</button>
         <a href="{% url 'users:profile' %}">Отмена</a>
