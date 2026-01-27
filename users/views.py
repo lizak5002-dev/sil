@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout
 from .forms import UserRegisterForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
+from django.contrib.auth.models import User
 
 #hello Tasya moy lubimyu
 
@@ -38,5 +39,10 @@ def logout_user(request):
     messages.success(request, "Вы успешно вышли из аккаунта!")
     return redirect('index')
 
-def profile_user(request):
-    pass
+def profile_user(request, user_id):
+    profile = get_object_or_404(User, id=user_id)
+    context = {
+        "profile": profile,
+        "title": f"Профиль {profile.username}"
+    }
+    return render(request, "users/profile.html", context)
