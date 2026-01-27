@@ -31,7 +31,7 @@
                     <div class="card-body" style="max-height: 200px; overflow-y: auto;">{{ post.lead|striptags }}</div>
                     <div class="card-footer">
                         <a href="{% url 'blog:post_update' post.id %}" class="btn btn-outline-success">Детали</a> 
-                        <a href="{% url 'blog:post_delete' post.id %}" class="btn btn-outline-danger" onclick=" return confirm('Вы уверены, что хотите удалить этот пост?');">Удалить</a></div>
+                        <a href="{% url 'blog:post_delete' post.id %}" class="btn btn-outline-danger">Удалить</a></div>
                     </div>
                     </div>
         {% endfor %}
