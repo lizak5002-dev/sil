@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div>
+        <div>
+            <h1>{{ post.title }}</h1>
+            <a>Автор: {{ post.author }}</a>
+            <p>Создан: {{ post.created_at }}</p>
+            <p>{{ post.lead }}</p>
+            <p>{{ post.content | safe }}</p>
+            <p>Просмотров: {{ post.views }}</p>
+        </div>
+    </div>
+
+    <div>
+        <h1>Написать комментарий</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ comment_form.as_p }}
+            <button type="submit" class="btn btn-success">Отправить</button>
+        </form>
+    </div>
+
+    <div>
+        <h1>Комментарии к посту</h1>
+        {% if comments %}
+            {% for comment in comments %}
+            <p>{{ comment.author }}</p>
+            <p>{{ comment.content }}</p>
+            {% endfor %}
+        {% else %}
+        <p>Пусто</p>
+        {% endif %}
+    </div>
+{% endblock %}
