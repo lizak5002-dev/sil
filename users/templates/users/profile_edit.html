@@ -9,12 +9,12 @@
         
         <div class="mb-3">
             <label>Логин:</label>
-            <input type="text" value="{{ user.username }}">
+            <input type="text" name="username" value="{{ user.username }}">
         </div>
         
         <div class="mb-3">
             <label>Имя:</label>
-            <input type="text" value="{{ user.first_name }}">
+            <input type="text" name="first_name" value="{{ user.first_name }}">
         </div>
         
         <div class="mb-3">
@@ -24,7 +24,7 @@
         
         <div class="mb-3">
             <label>Email:</label>
-            <input type="email" value="{{ user.email }}">
+            <input type="email" name="email" value="{{ user.email }}">
         </div>
         <div>
             <a href="{% url 'users:change_password' %}">Изменить пароль</a>
