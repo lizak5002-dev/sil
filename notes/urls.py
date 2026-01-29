@@ -11,6 +11,7 @@ urlpatterns = [
     path('basket/', views.notes_basket, name='notes_basket'),
     path('soft_delete/<int:id>/', views.delete_note_soft, name='delete_note_soft'),
     path('restore/<int:id>/', views.restore_note, name='restore_note'),
+    path('toggle_pin/<int:id>/', views.toggle_pin, name='toggle_pin'),
 ]
 
 #myay

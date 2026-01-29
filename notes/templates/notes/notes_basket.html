@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
     {% block title %} Корзина {% endblock %}
 
-    {% block context %}
+    {% block content %}
     {% if user.is_authenticated %}
         <div class="d-flex justify-content-between align-items-center">
             <div><h1>Корзина заметок</h1></div>
             <div>
-                <a href="{% url 'notes:show_notes' %}" class="btn btn-warning">Назад к заметкам</a>
                 <a href="/" class="btn btn-primary">На главную</a>
+                <a href="{% url 'notes:show_notes' %}" class="btn btn-warning">Назад к заметкам</a>
                 <a href="{% url 'notes:create_note' %}" class="btn btn-success">Создать новую заметку</a>
             </div>
         </div>

@@ -9,7 +9,7 @@ from django.core.exceptions import PermissionDenied
 
 # Create your views here.
 def show_notes(request):
-    notes = Note.objects.all().order_by('-updated_at').filter(is_deleted=False)
+    notes = Note.objects.all().filter(is_deleted=False)
     context = {
         'notes': notes,
     }
