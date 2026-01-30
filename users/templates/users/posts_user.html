@@ -1,18 +1,42 @@
 {% extends 'base.html' %}
 
 {% block content %} 
-    <h1>Мои посты</h1>
-    <a href="{% url 'blog:post_add' %}" class="btn btn-success">Создать пост</a>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h1>Мои посты</h1>
+        </div>
+        <div>
+            <a href="{% url 'users:profile' %}" class="btn btn-outline-secondary">В мой профль</a>
+            <a href="{% url 'blog:post_add' %}" class="btn btn-success">Создать пост</a>
+        </div>
+    </div>
     {% if posts %}
-        <div class="row row-cols-1 row-cols-sm-3 g-3">
+        <div class="row row-cols-1 row-cols-sm-1 g-3">
         {% for post in posts %}
             <div class="col">
-                <div class="card h-100">
-                    <div class="card-header">{{ post.title }} - {{ post.created_at }}</div>
-                    <div class="card-body" style="max-height: 200px; overflow-y: auto;">{{ post.content|striptags }}</div>
-                </div>
-            </div>
+                <div class="card h-100 rounded-top-3">
+                                    {% if post.image %}
+                    <div class="rounded-top-3" style="height: 200px; overflow: hidden;">
+                        <img src="{{ post.image.url }}" 
+                             alt="{{ post.title }}" 
+                             class="img-fluid w-100 h-100"
+                             style="object-fit: cover;">
+                    </div>
+                {% else %}
+                {% endif %}
+                    <div class="card-header">
+                        <a href="{% url 'blog:post_detail' post.id %}">{{ post.title }}</a>
+                        - {{ post.created_at }} - категория: {{ post.category }} - {{ post.get_status_display }}
+                    </div>
+                    <div class="card-body" style="max-height: 200px; overflow-y: auto;">{{ post.lead|striptags }}</div>
+                    <div class="card-footer">
+                        <a href="{% url 'blog:post_update' post.id %}" class="btn btn-outline-success">Детали</a> 
+                        <a href="{% url 'blog:post_delete' post.id %}" class="btn btn-outline-danger">Удалить</a></div>
+                    </div>
+                    </div>
         {% endfor %}
         </div>
+    {% else %}
+        <p>Постов нет.</p>
     {% endif %}
 {% endblock %}

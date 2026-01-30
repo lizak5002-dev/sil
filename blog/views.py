@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import Post, Comment
+from .models import Post, Comment, Category
 from .forms import PostForm, CommentForm
 from django.urls import reverse
 from django.contrib import messages
@@ -13,6 +13,7 @@ def post_list(request):
     search_query = request.GET.get("q")
     if search_query:
         posts = posts.filter(Q(title__icontains=search_query) | Q(content__icontains=search_query))
+    categories = Category.objects.all() 
     category_search = request.GET.get("category")
     if category_search:
         posts = posts.filter(category__id=category_search)
@@ -21,7 +22,10 @@ def post_list(request):
     page_posts = paginator.get_page(page_number)
     context = {
         "posts": page_posts,
-        "title": "Блог"
+        "title": "Блог",
+        "search_query": search_query,
+        "category_search": category_search,
+        "categories": categories,
     }
     return render(request, "blog/post_list.html", context)
 
@@ -97,7 +101,7 @@ def post_delete(request, post_id):
     if request.method == "POST":
         post.delete()
         messages.success(request, "Пост успешно удалён!")
-        return redirect(reverse("blog:post_list"))
+        return redirect(reverse("users:posts_user"))
     context = {
         'post': post,
         'title':'Удаление поста'
