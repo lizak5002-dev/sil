@@ -1,45 +1,48 @@
 {% extends 'base.html' %}
 
     {% block content %}
-    <div class="d-flex justify-content-between align-items-center">
-        <div><h1>Список постов</h1></div>
+    <div class="d-flex justify-content-between align-items-center mb-3">
         <div>
-            <a href="/" class="btn btn-primary">На главную</a>
-            <a href="{% url 'blog:post_add' %}" class="btn btn-success">Создать пост</a>
+            <h1>Список постов</h1>
+        </div>
+        <div>
+            <form method="get" class="">
+            <div class="input-group">
+                <input type="text" name="q" class="form-control" placeholder="Поиск по названию и содержанию..." value="{{ search_query|default:'' }}">
+                <button class="btn btn-outline-secondary" type="submit">Найти</button>
+            </div>
+            </form>
+        </div>
+        <div>
+            <a href="/" class="btn btn-outline-success">На главную</a>
         </div>
     </div>
     {% if posts %}
-        <div class="row row-cols-1 row-cols-sm-1 g-3">
+        <div class="row row-cols-1 row-cols-sm-1 g-3 mb-3">
         {% for post in posts %}
             <div class="col">
-                <div class="card h-100">
-                                    {% if post.image %}
-                    <div style="height: 200px; overflow: hidden;">
+                <div class="card h-100 rounded-top-3">
+                {% if post.image %}
+                    <div class="rounded-top-3" style="height: 200px; overflow: hidden;">
                         <img src="{{ post.image.url }}" 
                              alt="{{ post.title }}" 
                              class="img-fluid w-100 h-100"
                              style="object-fit: cover;">
                     </div>
-                {% else %}
-                    <!-- Заглушка для поста без изображения -->
-                    <div class="bg-light d-flex align-items-center justify-content-center" 
-                         style="height: 200px;">
-                        <i class="fas fa-image fa-3x text-muted"></i>
-                    </div>
                 {% endif %}
                     <div class="card-header">
                         <a href="{% url 'blog:post_detail' post.id %}">{{ post.title }}</a>
-                        - {{ post.created_at }}
+                        - {{ post.created_at }} - категория: {{ post.category }}
                     </div>
                     <div class="card-body" style="max-height: 200px; overflow-y: auto;">{{ post.lead|striptags }}</div>
                     <div class="card-footer">
-                        <a href="{% url 'blog:post_update' post.id %}" class="btn btn-outline-success">Детали</a> 
-                        <a href="{% url 'blog:post_delete' post.id %}" class="btn btn-outline-danger">Удалить</a></div>
+                        <a href="{% url 'blog:post_detail' post.id %}" class="btn btn-outline-success">Читать дальше</a></div>
                     </div>
                     </div>
         {% endfor %}
         </div>
+        
     {% else %}
-        <p>Постов нет.</p>
+        <p>Ничего не нашлось..</p>
     {% endif %}
 {% endblock %}

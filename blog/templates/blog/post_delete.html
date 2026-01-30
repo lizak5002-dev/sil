@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div>
+    <div class="container" style="max-width: 600px;">
         <h1>Удаление поста</h1>
         <form method="POST" class="form">
             <p>Вы точно хотите удалить пост: {{ post.title }}?</p>
             {% csrf_token %}
             {{ form.as_p }}
             <div class="button-block">
-                <button type="submit">Удалить</button>
-                <a href="{% url 'blog:post_list' %}">Отмена</a>
+                <button type="submit" class="btn btn-outline-danger">Удалить</button>
+                <a href="{% url 'users:posts_user' %}" class="btn btn-secondary">Отмена</a>
             </div>
         </form>
     </div>
