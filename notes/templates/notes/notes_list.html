@@ -19,11 +19,44 @@
     <div class="col">
         <div class="card h-100 {% if note.is_pinned %}border-warning{% endif %}">
             <div class="card-header">{{ note.title }} - {{ note.updated_at }}</div>
-            <div class="card-body" style="max-height: 200px; overflow-y: auto;">{{ note.content|striptags }}</div>
-            <div class="card-footer"><a href="{% url 'notes:edit_note' note.id %}"
-                    class="btn btn-outline-success">Детали</a> <a href="{% url 'notes:delete_note_soft' note.id %}"
-                    class="btn btn-outline-danger"
-                    onclick=" return confirm('Вы уверены, что хотите удалить эту заметку?');">Удалить</a>
+            <div class="card-body" style="max-height: 200px; overflow-y: auto;">{{ note.content|safe }}</div>
+            <div class="card-footer">
+
+                <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#noteModal{{ note.id }}">Подробнее</button> 
+
+                <div class="modal fade" id="noteModal{{ note.id }}" tabindex="-1" aria-labelledby="noteModalLabel{{ note.id }}" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="noteModalLabel{{ note.id }}">Подробности заметки</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                            </div>
+                            <div class="modal-body">
+                                <h5>{{ note.title }}</h5>
+                                {{ note.content|safe }}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                                <a href="{% url 'notes:edit_note' note.id %}" class="btn btn-outline-success">Редактировать</a>
+                                <form method="post" action="{% url 'notes:delete_note_soft' note.id %}" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-outline-danger"
+                                            onclick="return confirm('Вы уверены, что хотите удалить эту заметку?');">
+                                        Удалить
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <form method="post" action="{% url 'notes:delete_note_soft' note.id %}" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-danger"
+                            onclick="return confirm('Вы уверены, что хотите удалить эту заметку?');">
+                        Удалить
+                    </button>
+                </form>
                 <!-- Кнопка закрепления/открепления -->
                 <form method="post" action="{% url 'notes:toggle_pin' note.id %}" class="d-inline">
                     {% csrf_token %}
@@ -36,6 +69,7 @@
                         {% endif %}
                     </button>
                 </form>
+
             </div>
         </div>
     </div>
