@@ -7,9 +7,10 @@ class Note(models.Model):
     title = models.CharField(max_length=100, verbose_name="Название")
     content = CKEditor5Field(max_length=10_000, verbose_name="Содержание")
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Автор")
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Создано")
-    updated_at = models.DateTimeField(auto_now=True, verbose_name="Обновлено")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Создано в")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Обновлено в")
     deleted_at = models.DateTimeField(null=True, blank=True)  
+    pinned_at = models.DateTimeField(null=True, blank=True, verbose_name="Закреплено в")
     is_deleted = models.BooleanField(default=False)  
     is_pinned = models.BooleanField(default=False, verbose_name="Закреплено")  
 
@@ -31,7 +32,18 @@ class Note(models.Model):
     def toggle_pin(self):
         """Переключение состояния закрепления"""
         self.is_pinned = not self.is_pinned
-        self.save()  # auto_now=True обновит updated_at автоматически
+        if self.is_pinned:
+            Note.objects.filter(id=self.id).update(
+                is_pinned=True,
+                pinned_at=timezone.now()
+            )
+        else:
+            Note.objects.filter(id=self.id).update(
+                is_pinned=False,
+                pinned_at=None
+            )
+        
+        self.refresh_from_db()
         return self.is_pinned
 
     class Meta:

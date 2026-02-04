@@ -106,7 +106,6 @@ def restore_note(request, id):
     
 @login_required
 def toggle_pin(request, id):
-    """Переключение состояния закрепления заметки"""
     note = get_object_or_404(Note, id=id, author=request.user)
     is_pinned = note.toggle_pin()
     
